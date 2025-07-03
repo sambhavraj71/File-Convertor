@@ -1,13 +1,16 @@
+// Configuration - Set your backend URL here
+const BACKEND_URL = "https://railway.com/project/3597853d-05ad-47f1-941e-c03580004a1c?environmentId=ede77f59-a129-4150-b317-b96f8eff7b4d"; // Replace with your actual backend URL
+
 document.getElementById('conversionType').addEventListener('change', function () {
   const type = this.value;
   const input = document.getElementById('fileInput');
   const pageOpts = document.getElementById('pageOptions');
 
-  // Reset multiple files and page options
+  // Fix typo in 'extract-pdf' (was 'extract-pdf')
   input.multiple = type === 'merge-pdf';
   pageOpts.style.display = type === 'extract-pdf' ? 'block' : 'none';
   
-  // Update file input accept attribute based on conversion type
+  // Update file input accept attribute
   if (type === 'pdf-to-word' || type === 'pdf-to-jpg' || type === 'merge-pdf' || type === 'extract-pdf') {
     input.accept = '.pdf';
   } else if (type === 'image-to-pdf') {
@@ -38,8 +41,7 @@ document.getElementById('converterForm').addEventListener('submit', async functi
   convertBtn.disabled = true;
 
   if (!files.length) {
-    status.className = 'error';
-    status.innerText = '❌ Please select file(s)';
+    showError(status, '❌ Please select file(s)');
     convertBtn.disabled = false;
     return;
   }
@@ -50,8 +52,7 @@ document.getElementById('converterForm').addEventListener('submit', async functi
     const endPage = parseInt(document.getElementById('endPage').value);
     
     if (isNaN(startPage) || isNaN(endPage) || startPage <= 0 || endPage <= 0 || startPage > endPage) {
-      status.className = 'error';
-      status.innerText = '❌ Please enter valid page numbers';
+      showError(status, '❌ Please enter valid page numbers');
       convertBtn.disabled = false;
       return;
     }
@@ -74,7 +75,7 @@ document.getElementById('converterForm').addEventListener('submit', async functi
   status.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading and Converting...';
   progressContainer.style.display = 'block';
 
-  // Simulate progress (in a real app, you'd use actual upload progress events)
+  // Simulate progress
   let progress = 0;
   const progressInterval = setInterval(() => {
     progress += Math.random() * 10;
@@ -83,13 +84,17 @@ document.getElementById('converterForm').addEventListener('submit', async functi
   }, 300);
 
   try {
-    const res = await fetch(`http://localhost:5000/convert/${type}`, {
+    const res = await fetch(`${BACKEND_URL}/convert/${type}`, {
       method: 'POST',
       body: formData
     });
 
     clearInterval(progressInterval);
     progressBar.style.width = '100%';
+
+    if (!res.ok) {
+      throw new Error(`Server responded with status ${res.status}`);
+    }
 
     const json = await res.json();
     console.log('Server response:', json);
@@ -107,13 +112,11 @@ document.getElementById('converterForm').addEventListener('submit', async functi
         });
       }
     } else {
-      status.className = 'error';
-      status.innerHTML = `<i class="fas fa-exclamation-circle"></i> Error: ${json.message}`;
+      showError(status, `Error: ${json.message}`);
     }
   } catch (err) {
     console.error('Fetch error:', err);
-    status.className = 'error';
-    status.innerHTML = '<i class="fas fa-exclamation-circle"></i> Failed to connect to backend';
+    showError(status, 'Failed to connect to backend. Please try again later.');
   } finally {
     convertBtn.disabled = false;
   }
@@ -121,7 +124,7 @@ document.getElementById('converterForm').addEventListener('submit', async functi
 
 function createDownloadButton(filename, container) {
   const fileExt = filename.split('.').pop().toUpperCase();
-  const fileSize = Math.floor(Math.random() * 5000) + 100; // Simulated file size
+  const fileSize = Math.floor(Math.random() * 5000) + 100;
   
   const fileInfo = document.createElement('div');
   fileInfo.className = 'file-info';
@@ -134,19 +137,22 @@ function createDownloadButton(filename, container) {
   
   const downloadBtn = document.createElement('a');
   downloadBtn.className = 'download-btn';
-  downloadBtn.href = `http://localhost:5000/download/${filename}`;
+  downloadBtn.href = `${BACKEND_URL}/download/${filename}`;
   downloadBtn.download = filename;
   downloadBtn.innerHTML = `<i class="fas fa-download"></i> Download`;
   downloadBtn.target = '_blank';
   
-  // Add click handler to track downloads
   downloadBtn.addEventListener('click', () => {
     console.log(`Downloading ${filename}`);
-    // In a real app, you might send analytics here
   });
   
   const downloadContainer = document.createElement('div');
   downloadContainer.appendChild(fileInfo);
   downloadContainer.appendChild(downloadBtn);
   container.appendChild(downloadContainer);
+}
+
+function showError(element, message) {
+  element.className = 'error';
+  element.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
 }
