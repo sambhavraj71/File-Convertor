@@ -1,5 +1,6 @@
 // Configuration - Set your backend URL here
-const BACKEND_URL = "file-convertor-backend-production.up.railway.app"; // Replace with your actual backend URL
+const BACKEND_URL = "https://file-convertor-backend-production.up.railway.app"; // ✅ Use your working Railway domain
+ // Replace with your actual backend URL
 
 document.getElementById('conversionType').addEventListener('change', function () {
   const type = this.value;
