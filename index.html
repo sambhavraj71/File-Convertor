@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File Converter</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --secondary: #3f37c9;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --success: #4cc9f0;
+      --danger: #f72585;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      background-color: #f5f5f5;
+      color: var(--dark);
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: var(--primary);
+    }
+    
+    #converterForm {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    label {
+      font-weight: 600;
+    }
+    
+    select, input[type="file"], input[type="number"], button {
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    
+    select {
+      background-color: white;
+    }
+    
+    input[type="file"] {
+      background-color: #f8f9fa;
+    }
+    
+    button {
+      background-color: var(--primary);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      border: none;
+    }
+    
+    button:hover {
+      background-color: var(--secondary);
+    }
+    
+    #pageOptions {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    #pageOptions input {
+      flex: 1;
+    }
+    
+    #status {
+      margin-top: 1rem;
+      padding: 0.75rem;
+      border-radius: 5px;
+      text-align: center;
+    }
+    
+    .uploading {
+      background-color: #fff3cd;
+      color: #856404;
+    }
+    
+    .success {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    
+    .error {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+    
+    #downloadArea {
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .download-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      background-color: var(--success);
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+    
+    .download-btn:hover {
+      background-color: #3aa8d8;
+    }
+    
+    .file-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem;
+      background-color: #e9ecef;
+      border-radius: 5px;
+    }
+    
+    .progress-container {
+      width: 100%;
+      background-color: #e9ecef;
+      border-radius: 5px;
+      margin-top: 1rem;
+      display: none;
+    }
+    
+    .progress-bar {
+      height: 10px;
+      background-color: var(--primary);
+      border-radius: 5px;
+      width: 0%;
+      transition: width 0.3s;
+    }
+    
+    @media (max-width: 600px) {
+      .container {
+        padding: 1rem;
+      }
+      
+      #pageOptions {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1><i class="fas fa-file-export"></i> File Converter</h1>
+    <form id="converterForm">
+      <label for="conversionType">Choose conversion:</label>
+      <select id="conversionType">
+        <option value="pdf-to-word">PDF ➜ Word</option>
+        <option value="image-to-pdf">Image ➜ PDF</option>
+        <option value="pdf-to-jpg">PDF ➜ JPG</option>
+        <option value="merge-pdf">Merge PDFs</option>
+        <option value="extract-pdf">Extract PDF Pages</option>
+      </select>
+
+      <div class="file-upload">
+        <input type="file" id="fileInput" name="file" multiple>
+      </div>
+
+      <div id="pageOptions" style="display:none">
+        <div class="page-inputs">
+          <input type="number" id="startPage" name="start" placeholder="Start Page" min="1">
+          <input type="number" id="endPage" name="end" placeholder="End Page" min="1">
+        </div>
+      </div>
+
+      <button type="submit" id="convertBtn">
+        <i class="fas fa-exchange-alt"></i> Convert
+      </button>
+    </form>
+
+    <div class="progress-container" id="progressContainer">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <p id="status"></p>
+    <div id="downloadArea"></div>
+  </div>
+  <script src="convert.js"></script>
+</body>
+</html>
