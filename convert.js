@@ -1,5 +1,5 @@
 // Configuration - Set your backend URL here
-const BACKEND_URL = "https://railway.com/project/3597853d-05ad-47f1-941e-c03580004a1c?environmentId=ede77f59-a129-4150-b317-b96f8eff7b4d"; // Replace with your actual backend URL
+const BACKEND_URL = "file-convertor-backend-production.up.railway.app"; // Replace with your actual backend URL
 
 document.getElementById('conversionType').addEventListener('change', function () {
   const type = this.value;
