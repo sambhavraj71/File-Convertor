@@ -30,12 +30,19 @@
       color: var(--dark);
     }
     
-    /* Header Styles */
+    /* Header Styles - Hidden on mobile/tablet */
     header {
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       color: white;
       padding: 1rem 0;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      display: none; /* Hidden by default */
+    }
+
+    @media (min-width: 1024px) {
+      header {
+        display: block; /* Show only on desktop */
+      }
     }
     
     .header-container {
@@ -103,7 +110,7 @@
     
     /* Main Content Styles */
     .main-content {
-      min-height: calc(100vh - 180px);
+      min-height: calc(100vh - 120px);
       padding: 2rem 20px;
     }
     
@@ -380,13 +387,20 @@
       line-height: 1.7;
     }
     
-    /* Footer */
+    /* Footer - Hidden on mobile/tablet */
     footer {
       background-color: var(--dark);
       color: white;
       text-align: center;
       padding: 1.5rem;
       margin-top: 2rem;
+      display: none; /* Hidden by default */
+    }
+
+    @media (min-width: 1024px) {
+      footer {
+        display: block; /* Show only on desktop */
+      }
     }
     
     .footer-content {
@@ -453,9 +467,39 @@
     .hidden {
       display: none;
     }
+
+    /* Mobile header text */
+    .mobile-header {
+      text-align: center;
+      padding: 1.5rem 0;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      display: none; /* Hidden by default */
+    }
+
+    @media (max-width: 1023px) {
+      .mobile-header {
+        display: block; /* Show on mobile/tablet */
+      }
+    }
+
+    .mobile-header .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .mobile-header i {
+      font-size: 1.8rem;
+    }
   </style>
 </head>
 <body>
+  <!-- Desktop Header (with navigation) -->
   <header>
     <div class="header-container">
       <div class="logo">
@@ -465,12 +509,20 @@
       <nav>
         <ul>
           <li><a href="#" class="active" id="homeLink">Home</a></li>
-          <li><a href="#" id="featuresLink">Features</a></li>
-          <li><a href="#" id="aboutLink">About Us</a></li>
+          <li><a href="features.html">Features</a></li>
+          <li><a href="aboutus.html">About Us</a></li>
         </ul>
       </nav>
     </div>
   </header>
+
+  <!-- Mobile Header (text only) -->
+  <div class="mobile-header">
+    <div class="logo">
+      <i class="fas fa-file-export"></i>
+      <span>ConvertYourFile</span>
+    </div>
+  </div>
   
   <div class="main-content">
     <!-- Home Page (Converter) -->
@@ -529,88 +581,10 @@
     </div>
     
     <!-- Features Page -->
-    <div id="featuresPage" class="hidden">
-      <div class="container">
-        <h1><i class="fas fa-star"></i> Features</h1>
-        <p class="text-center" style="margin-bottom: 1.5rem; color: #6c757d;">
-          Discover what makes ConvertYourFile the best choice for your file conversion needs
-        </p>
-        
-        <div class="features">
-          <div class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-bolt"></i>
-            </div>
-            <h3 class="feature-title">Fast Conversions</h3>
-            <p class="feature-desc">Our cloud-powered system converts files in seconds, no matter the size.</p>
-          </div>
-          
-          <div class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-lock"></i>
-            </div>
-            <h3 class="feature-title">Secure Processing</h3>
-            <p class="feature-desc">Your files are automatically deleted from our servers after 1 hour.</p>
-          </div>
-          
-          <div class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-file-alt"></i>
-            </div>
-            <h3 class="feature-title">Multiple Formats</h3>
-            <p class="feature-desc">Supports all popular formats including PDF, DOCX, JPG, PNG, and more.</p>
-          </div>
-          
-          <div class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-magic"></i>
-            </div>
-            <h3 class="feature-title">High Quality</h3>
-            <p class="feature-desc">Preserves formatting, images, and quality during conversion.</p>
-          </div>
-          
-          <div class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-cloud"></i>
-            </div>
-            <h3 class="feature-title">Cloud Storage</h3>
-            <p class="feature-desc">Direct integration with Google Drive and Dropbox for easy access.</p>
-          </div>
-          
-          <div class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-mobile-alt"></i>
-            </div>
-            <h3 class="feature-title">Mobile Friendly</h3>
-            <p class="feature-desc">Works perfectly on all devices, from desktop to smartphone.</p>
-          </div>
-        </div>
-      </div>
-    </div>
+    
     
     <!-- About Us Page -->
-    <div id="aboutPage" class="hidden">
-      <div class="container">
-        <h1><i class="fas fa-info-circle"></i> About Us</h1>
-        
-        <div class="about-content">
-          <h2>Our Story</h2>
-          <p>ConvertYourFile was founded in 2023 with a simple mission: to make file conversion as easy and accessible as possible for everyone. Frustrated by complicated tools and privacy concerns with existing solutions, our team set out to create a better alternative.</p>
-          
-          <h2>Our Technology</h2>
-          <p>We use advanced cloud-based processing to handle your conversions quickly and efficiently. Our systems are built on secure, scalable infrastructure that ensures your files are processed without compromising quality or security.</p>
-          
-          <h2>Privacy Commitment</h2>
-          <p>We take your privacy seriously. All files uploaded to our service are automatically deleted after 1 hour, and we never store or inspect your documents beyond what's necessary for the conversion process.</p>
-          
-          <h2>The Team</h2>
-          <p>Our team consists of file format experts, software engineers, and user experience designers dedicated to making ConvertYourFile the best file conversion tool available.</p>
-          
-          <h2>Contact Us</h2>
-          <p>Have questions or feedback? We'd love to hear from you at <a href="mailto:support@convertyourfile.com">support@convertyourfile.com</a>.</p>
-        </div>
-      </div>
-    </div>
+    
   </div>
   
   <footer>
