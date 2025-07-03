@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConvertYourFile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6c63ff;
+            --secondary: #4d44db;
+            --accent: #ff6584;
+            --light: #f8f9ff;
+            --text: #3a3a68;
+            --card-bg: rgba(255, 255, 255, 0.9);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7ff 0%, #e6e9ff 100%);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Styles - Hidden on mobile/tablet */
+        header {
+            background: white;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+            display: none; /* Hidden by default */
+        }
+
+        @media (min-width: 1024px) {
+            header {
+                display: block; /* Show only on desktop */
+            }
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            color: var(--primary);
+            font-size: 1.8rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 2rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            color: var(--primary);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover::after, nav ul li a.active::after {
+            width: 100%;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            flex: 1;
+        }
+
+        .main-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+            text-shadow: 0 4px 10px rgba(108, 99, 255, 0.2);
+        }
+
+        /* Animated icons */
+        .icon-animate {
+            display: inline-block;
+            animation: floatIcon 3s ease-in-out infinite;
+        }
+
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .about-content {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            color: var(--secondary);
+            margin: 2rem 0 1rem;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text);
+            padding-left: 20px;
+            border-left: 2px solid rgba(108, 99, 255, 0.2);
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        a:hover {
+            color: var(--accent);
+        }
+
+        a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background: var(--accent);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        a:hover::after {
+            transform: scaleX(1);
+        }
+
+        /* Special Credit Section */
+        .credit-section {
+            background: linear-gradient(135deg, rgba(108, 99, 255, 0.1) 0%, rgba(77, 68, 219, 0.1) 100%);
+            border-radius: 18px;
+            padding: 2.5rem;
+            margin-top: 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 10px 30px rgba(108, 99, 255, 0.1);
+            transition: all 0.4s ease;
+        }
+
+        .credit-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            animation: borderGrow 1s ease-out;
+        }
+
+        @keyframes borderGrow {
+            0% { width: 0; }
+            100% { width: 100%; }
+        }
+
+        .powered-by-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .powered-by-text span {
+            color: var(--primary);
+            font-weight: 800;
+            position: relative;
+        }
+
+        .powered-by-text span::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent);
+            transform: scaleX(0.8);
+            border-radius: 3px;
+        }
+
+        .developer-credit {
+            font-size: 1.4rem;
+            color: var(--text);
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .developer-name {
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            padding: 0 10px;
+            position: relative;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+
+        .developer-name::before, .developer-name::after {
+            content: '✦';
+            color: var(--accent);
+            margin: 0 8px;
+            font-size: 1rem;
+            position: relative;
+            top: -2px;
+        }
+
+        .credit-badge {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: var(--accent);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+            transform: rotate(15deg);
+            box-shadow: 0 3px 8px rgba(255, 101, 132, 0.3);
+            animation: badgeFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes badgeFloat {
+            0%, 100% { transform: rotate(15deg) translateY(0); }
+            50% { transform: rotate(15deg) translateY(-5px); }
+        }
+
+        /* Footer Styles - Hidden on mobile/tablet */
+        footer {
+            background: white;
+            box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.1);
+            padding: 2rem 0;
+            width: 100%;
+            margin-top: auto;
+            display: none; /* Hidden by default */
+        }
+
+        @media (min-width: 1024px) {
+            footer {
+                display: block; /* Show only on desktop */
+            }
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text);
+            text-decoration: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-logo i {
+            margin-right: 10px;
+            color: var(--primary);
+            font-size: 1.8rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            margin: 0 1rem;
+            color: var(--text);
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            margin-bottom: 1.5rem;
+            display: flex;
+        }
+
+        .social-links a {
+            color: var(--text);
+            margin: 0 10px;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-links a:hover {
+            color: white;
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            color: var(--text);
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Floating bubbles background */
+        .bubbles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            top: 0;
+            left: 0;
+        }
+
+        .bubble {
+            position: absolute;
+            bottom: -100px;
+            background: rgba(108, 99, 255, 0.1);
+            border-radius: 50%;
+            animation: float 15s infinite ease-in;
+        }
+
+        @keyframes float {
+            0% {
+                bottom: -100px;
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(100px);
+            }
+            100% {
+                bottom: 100%;
+                transform: translateX(-200px);
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+            
+            .main-header {
+                font-size: 2.5rem;
+            }
+            
+            .about-content {
+                padding: 2rem;
+            }
+
+            .credit-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .powered-by-text {
+                font-size: 1.5rem;
+            }
+
+            .developer-credit {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-header {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            p {
+                font-size: 1rem;
+            }
+
+            .credit-section {
+                padding: 1.8rem 1.2rem;
+            }
+
+            .powered-by-text {
+                font-size: 1.3rem;
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .developer-credit {
+                font-size: 1.1rem;
+            }
+
+            .credit-badge {
+                top: 10px;
+                right: 15px;
+                font-size: 0.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header (Desktop Only) -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">
+                <i class="fas fa-file-export"></i>
+                <span>ConvertYourFile</span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="about.html" class="active">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Floating background bubbles -->
+    <div class="bubbles" id="bubbles"></div>
+
+    <!-- Main Content -->
+    <div id="aboutPage">
+      <div class="container">
+        <h1 class="main-header">ConvertYourFile</h1>
+        
+        <div class="about-content">
+          <h2><i class="fas fa-server icon-animate"></i> Our Technology</h2>
+          <p>We use Python libraries with a secure backend and responsive HTML, CSS, and JavaScript frontend to deliver fast, high-quality, and reliable file conversions.</p>
+          
+          <h2><i class="fas fa-lock"></i> Privacy Commitment</h2>
+          <p>We take your privacy seriously. All files uploaded to our service are automatically deleted after after some time, and we never store or inspect your documents beyond what's necessary for the conversion process.</p>
+          
+          <h2><i class="fas fa-envelope"></i> Contact Us</h2>
+          <p>Have questions or feedback? We'd love to hear from you at <a href="mailto:codevoraofficial@gmail.com">codevoraofficial@gmail.com</a>.</p>
+          
+          <!-- Special Credit Section -->
+          <div class="credit-section">
+              <div class="credit-badge">CREATOR</div>
+              <div class="powered-by-text">
+                  <i class="fas fa-bolt" style="color: var(--accent);"></i>
+                  <span>POWERED BY CODEVORA</span>
+              </div>
+              <div class="developer-credit">
+                  Designed & Developed by
+                  <div class="developer-name">Sambhav Raj</div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer (Desktop Only) -->
+    <footer>
+        <div class="footer-container">
+            <a href="#" class="footer-logo">
+                <i class="fas fa-file-export"></i>
+                <span>ConvertYourFile</span>
+            </a>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="features.html">Features</a>
+                <a href="about.html">About</a>
+            </div>
+            <div class="social-links">
+                
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <p class="copyright">© 2023 ConvertYourFile. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Create floating bubbles - fewer on mobile
+        function createBubbles() {
+            const bubblesContainer = document.getElementById('bubbles');
+            const isMobile = window.innerWidth < 768;
+            const bubbleCount = isMobile ? 8 : 15;
+            
+            for (let i = 0; i < bubbleCount; i++) {
+                const bubble = document.createElement('div');
+                bubble.classList.add('bubble');
+                
+                // Smaller bubbles on mobile
+                const size = isMobile ? (Math.random() * 40 + 30) : (Math.random() * 100 + 50);
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                
+                // Random position
+                bubble.style.left = `${Math.random() * 100}%`;
+                
+                // Random animation duration
+                bubble.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                
+                // Random delay
+                bubble.style.animationDelay = `${Math.random() * 5}s`;
+                
+                bubblesContainer.appendChild(bubble);
+            }
+        }
+
+        // Animate elements when they come into view
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('h2, p, .credit-section');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            elements.forEach(el => {
+                el.style.opacity = 0;
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'all 0.6s ease-out';
+                observer.observe(el);
+            });
+        }
+
+        // Set active nav link (only runs on desktop)
+        function setActiveNav() {
+            if (window.innerWidth >= 1024) {
+                const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+                const navLinks = document.querySelectorAll('nav ul li a');
+                
+                navLinks.forEach(link => {
+                    const linkPage = link.getAttribute('href');
+                    if (currentPage === linkPage) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+            }
+        }
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            createBubbles();
+            animateOnScroll();
+            setActiveNav();
+            
+            // Make the about page visible
+            document.getElementById('aboutPage').classList.remove('hidden');
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            const bubblesContainer = document.getElementById('bubbles');
+            bubblesContainer.innerHTML = '';
+            createBubbles();
+            setActiveNav();
+        });
+    </script>
+</body>
+</html>
