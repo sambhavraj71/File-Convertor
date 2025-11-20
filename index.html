@@ -547,14 +547,16 @@
           </div>
 
           <div class="form-group">
-            <label for="fileInput">Select your file(s):</label>
-            <label class="file-upload-label" for="fileInput">
-              <i class="fas fa-cloud-upload-alt"></i>
-              <span>Click to browse or drag & drop files</span>
-              <small>Supports PDF, DOCX, JPG, PNG (Max 50MB)</small>
-              <input type="file" id="fileInput" name="file" multiple style="display: none;">
-            </label>
-          </div>
+              <label for="fileInput">Select your file(s):</label>
+            
+              <div class="file-upload-label" id="dropArea">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <span>Click to browse or drag & drop files</span>
+                <small>Supports PDF, DOCX, JPG, PNG (Max 50MB)</small>
+                <input type="file" id="fileInput" multiple />
+              </div>
+            </div>
+
 
           <div id="pageOptions" style="display:none">
             <div class="form-group">
@@ -733,3 +735,4 @@
   <script src="convert.js"></script>
 </body>
 </html>
+
