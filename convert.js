@@ -21,6 +21,21 @@ document.getElementById('conversionType').addEventListener('change', function ()
   }
 });
 
+const conversionType = document.getElementById("conversionType");
+const fileInput = document.getElementById("fileInput");
+
+conversionType.addEventListener("change", function () {
+  if (conversionType.value === "image-to-pdf") {
+    fileInput.setAttribute("accept", "image/*");
+    fileInput.setAttribute("multiple", "multiple");
+  } else {
+    fileInput.removeAttribute("accept");
+    fileInput.removeAttribute("multiple");
+    fileInput.setAttribute("multiple", "multiple");  // keep multi-files for other conversions
+  }
+});
+
+
 document.getElementById('converterForm').addEventListener('submit', async function (e) {
   e.preventDefault();
   const formData = new FormData();
@@ -157,4 +172,5 @@ function showError(element, message) {
   element.className = 'error';
   element.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
 }
+
 
